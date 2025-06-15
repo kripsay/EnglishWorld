@@ -112,3 +112,35 @@ app.get('/:level-module', requireAuth, (req, res) => {
 });
 
 app.listen(port, () => console.log(`Сервер, запущенный по адресу http://localhost:${port}`));
+
+//TEST//
+
+function checkAnswers() {
+    const correctAnswers = ['Правильный', 'Правильный']; // Правильные ответы
+    const form = document.forms['quiz-form'];
+    let score = 0;
+    let totalQuestions = correctAnswers.length;
+
+    for (let i = 0; i < totalQuestions; i++) {
+        const question = form['q' + (i + 1)];
+        for (let j = 0; j < question.length; j++) {
+            if (question[j].checked && question[j].value === correctAnswers[i]) {
+                score++;
+            }
+        }
+    }
+
+    const resultsDiv = document.getElementById('results');
+    if (score === totalQuestions) {
+        resultsDiv.innerHTML = "Поздравляем! Все ответы верные.";
+    } else {
+        resultsDiv.innerHTML = "Некоторые ответы неверные. Попробуйте снова.";
+        document.getElementById('retry-btn').style.display = 'block';
+    }
+}
+
+function retryQuiz() {
+    document.getElementById('quiz-form').reset();
+    document.getElementById('results').innerHTML = '';
+    document.getElementById('retry-btn').style.display = 'none';
+}
